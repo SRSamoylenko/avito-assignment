@@ -1,11 +1,11 @@
-FROM python:latest
+FROM python:3.7
+
+RUN pip install fastapi uvicorn sqlalchemy python-multipart
 
 WORKDIR /app
 
-ENV PORT 8000
-
-RUN pip install fastapi uvicorn[standard] psycopg2 sqlalchemy python-multipart
+EXPOSE 80
 
 COPY ./app /app
 
-CMD ["uvicorn", "main:app"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]

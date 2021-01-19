@@ -6,7 +6,10 @@ from database import SessionLocal, engine
 
 from datetime import date
 
+
 app = FastAPI()
+
+models.Base.metadata.create_all(bind=engine)
 
 
 class Sorting(Enum):
@@ -23,13 +26,9 @@ def get_db():
         db.close()
 
 
-db_connected = False
-while not db_connected:
-    try:
-        models.Base.metadata.create_all(bind=engine)
-        db_connected = True
-    except:
-        pass
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
 
 
 @app.post("/rooms/create")
